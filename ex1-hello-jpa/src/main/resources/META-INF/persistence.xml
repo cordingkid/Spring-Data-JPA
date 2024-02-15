@@ -17,11 +17,17 @@
             -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
 
-            <!-- 옵션 -->
+            <!--
+                옵션
+                show 쿼리 출력
+                format sql 이쁘게 포맷팅 해주고
+                use sql comments 쿼리 왜 나왔는지 알려줌 주석
+            -->
             <property name="hibernate.show_sql" value="true"/> <!-- 쿼리나가는거 볼거야 말거야 하는 설정 -->
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments"  value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.jdbc.batch_size" value="10"/> <!-- 배치 사이즈 만큼 모아서 한방에 네트워크로 쿼리를 보냄 -->
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
         </properties>
     </persistence-unit>
 
