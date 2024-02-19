@@ -78,21 +78,52 @@ public class JpaMain {
 
 
             // 영속상태
-            Member member = em.find(Member.class, 150L);
-            member.setName("AAAAA");
+           /* Member member = em.find(Member.class, 150L);
+            member.setName("AAAAA");*/
 
             // 준영속 상태 영속 상태에서 뻇기 때문에 update쿼리는 나가지 않는다.
             /*em.detach(member);*/
 
             // 영속성 컨텍스트를 통째로 지워버린다.
-            em.clear();
+           /* em.clear();
 
-            Member member2 = em.find(Member.class, 150L);
+            Member member2 = em.find(Member.class, 150L);*/
 
             // 그럼 궁금한거 이렇게하면 다르게 나올까?
-            System.out.println(member == member2); // false가 나옴 둘이 갖지 않다라고 나온다.
+            /*System.out.println(member == member2);*/ // false가 나옴 둘이 갖지 않다라고 나온다.
 
-            System.out.println("=====================");
+            /*Member member = new Member();
+            member.setUsername("AAA");
+
+            System.out.println("==============");
+            em.persist(member);
+            System.out.println("member.getId() = " + member.getId());
+            System.out.println("==============");*/
+
+            Member member1 = new Member();
+            member1.setUsername("A");
+
+            Member member2 = new Member();
+            member1.setUsername("B");
+
+            Member member3 = new Member();
+            member1.setUsername("C");
+
+            System.out.println("=================");
+
+            // allocationSize = 50을 했을 경우
+            // 처음 호출 한값 1       | 1
+            // 두번쨰 호출 한값 51    | 2
+
+            em.persist(member1); // 1, 51
+            em.persist(member2); // memory에서 호출
+            em.persist(member3); // memory에서 호출
+
+            System.out.println("member1 = " + member1.getId());
+            System.out.println("member2 = " + member2.getId());
+            System.out.println("member3 = " + member3.getId());
+
+            System.out.println("=================");
 
             tx.commit();
         } catch (Exception e) {
