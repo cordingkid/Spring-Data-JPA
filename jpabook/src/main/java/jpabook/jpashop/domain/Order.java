@@ -3,22 +3,37 @@ package jpabook.jpashop.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "ORDERS")
+@Table(name = "orders")
 public class Order {
 
     @Id @GeneratedValue
-    @Column(name = "ORDER_ID")
+    @Column(name = "order_id")
     private Long id;
 
-    @Column(name = "MEMBER_ID")
-    private Long memberId;  // 이런 매핑은 관계형 DB에 맞춘 매핑이다.
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    private LocalDateTime orderDate; // 스프링 부트 쓰면 캐멀을 언더스코어로 바꿔준다
+    @OneToOne
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
+    @OneToMany(mappedBy = "order") // 이부분은 비즈니스적으로 필요 할 만 하다.(근데 꼭 필요한건 아님)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    public void addOrderItem(OrderItem orderItem) { // 연관관계 편의 매서드
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
 
     public Long getId() {
         return id;
@@ -28,12 +43,12 @@ public class Order {
         this.id = id;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public Member getMember() {
+        return member;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public LocalDateTime getOrderDate() {
@@ -51,4 +66,6 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
+
+
 }
