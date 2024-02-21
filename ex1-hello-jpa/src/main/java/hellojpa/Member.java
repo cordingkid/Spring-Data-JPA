@@ -2,7 +2,9 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 // 만약 Member 클래스가 실제 DB에서 USER라는 테이블일 경우 매핑 @Table(name = "USER")
@@ -17,12 +19,22 @@ public class Member {
     @Column(name = "username", nullable = false) // db컬럼명은 name이다.
     private String username;
 
-    /*@Column(name = "team_id")
-    private Long teamId;*/
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
 
     @ManyToOne
     @JoinColumn(name = "team_id") // 이렇게 하면 연관관계가된다.
     private Team team;
+
+    /*@ManyToMany // 근데 사실 실무에선 절대 안씀 쓰면안됨!!
+    @JoinTable(
+            name = "member_product" // 테이블명
+    )
+    private List<Product> products = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
     public Long getId() {
         return id;
