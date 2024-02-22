@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "member_id") // 요즘은 소문자로 많이씀 가급적이면 객체보고 쿼리 짤수 있도록 매핑을 다 적는게 좋다.
