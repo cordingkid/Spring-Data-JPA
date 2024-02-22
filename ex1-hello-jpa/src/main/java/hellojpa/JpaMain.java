@@ -2,6 +2,7 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -18,26 +19,16 @@ public class JpaMain {
         tx.begin(); // JPA에서는 트랜잭션이 중요해서 트랜잭션을 시작해야한다.
 
         try {
-            
-            // 저장
-            /*Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
 
+            // 조인 전략
             Member member = new Member();
-            member.setUsername("member1");
-            member.changeTeam(team);
-            em.persist(member);*/
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
 
-            /*em.flush();
-            em.clear();*/
+            em.persist(member);
 
-            /*Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();*/
-            /*for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }*/
-
+            em.flush();
+            em.clear();
 
             tx.commit();
         } catch (Exception e) {

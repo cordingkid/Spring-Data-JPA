@@ -10,7 +10,7 @@ import java.util.List;
 // 만약 Member 클래스가 실제 DB에서 USER라는 테이블일 경우 매핑 @Table(name = "USER")
 // 해당 어노테이션 추가
 @Entity // (name = "Member") 이런게 있는데 일반적으로 쓸일은 없다 내부적으로 구분하는 이유로쓰임 그냥 기본값쓰면됨
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
