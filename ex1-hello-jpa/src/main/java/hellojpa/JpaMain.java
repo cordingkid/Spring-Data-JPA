@@ -1,6 +1,7 @@
 package hellojpa;
 
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,19 +21,37 @@ public class JpaMain {
 
         try {
 
-            // 조인 전략
-            Member member = new Member();
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
-            em.persist(member);
+            Team team2 = new Team();
+            team2.setName("teamB");
+            em.persist(team2);
+
+            Member member1 = new Member();
+            member1.setUsername("hello1");
+            member1.changeTeam(team);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("hello2");
+            member2.changeTeam(team2);
+            em.persist(member2);
+
+
 
             em.flush();
             em.clear();
 
+            // fetch 조인 예시
+            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class)
+                    .getResultList();
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         }finally {
             em.close();
         }

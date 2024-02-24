@@ -19,11 +19,11 @@ public class Member extends BaseEntity{
     @Column(name = "username", nullable = false) // db컬럼명은 name이다.
     private String username;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "locker_id")
     private Locker locker;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
     @JoinColumn(name = "team_id") // 이렇게 하면 연관관계가된다.
     private Team team;
 
