@@ -1,3 +1,2 @@
 # target file ignore
-ex1-hello-jpa/target/
-jpabook/target/
+**/target/

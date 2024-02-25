@@ -2,15 +2,14 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 // 만약 Member 클래스가 실제 DB에서 USER라는 테이블일 경우 매핑 @Table(name = "USER")
 // 해당 어노테이션 추가
 @Entity // (name = "Member") 이런게 있는데 일반적으로 쓸일은 없다 내부적으로 구분하는 이유로쓰임 그냥 기본값쓰면됨
-public class Member extends BaseEntity{
+public class Member{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -19,22 +18,33 @@ public class Member extends BaseEntity{
     @Column(name = "username", nullable = false) // db컬럼명은 name이다.
     private String username;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "locker_id")
-    private Locker locker;
+    // Period 기간
+    @Embedded
+    private Period period;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
-    @JoinColumn(name = "team_id") // 이렇게 하면 연관관계가된다.
-    private Team team;
+    // 주소
+    @Embedded
+    private Address homeAddress;
 
-    /*@ManyToMany // 근데 사실 실무에선 절대 안씀 쓰면안됨!!
-    @JoinTable(
-            name = "member_product" // 테이블명
+    @ElementCollection // 값 타입 컬렉션
+    @CollectionTable(
+            name = "favorite_food",
+            joinColumns = @JoinColumn(name = "member_id")
     )
-    private List<Product> products = new ArrayList<>();*/
+    @Column(name = "food_name")
+    private Set<String> favoriteFoods = new HashSet<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberProduct> memberProducts = new ArrayList<>();
+//    @ElementCollection // 값 타입 컬렉션
+//    @CollectionTable(
+//            name = "address",
+//            joinColumns = @JoinColumn(name = "member_id")
+//    )
+//    private List<Address> addressHistory = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "member_id")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -52,12 +62,19 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
+    public Period getPeriod() {
+        return period;
     }
 
-    public void changeTeam(Team team) { // 로직이 들어가면 set을 안쓰고 이름을 바꾼다.
-        this.team = team;
-        team.getMembers().add(this); // 연관 관계 편의 매서드
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }

@@ -12,9 +12,9 @@ public class Member extends BaseEntity {
     @Column(name = "member_id") // 요즘은 소문자로 많이씀 가급적이면 객체보고 쿼리 짤수 있도록 매핑을 다 적는게 좋다.
     private Long id;
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+
+    @Embedded
+    private Address address;
 
     @OneToMany(mappedBy = "member") // 처음엔 단방향으로 만드는데 개발하다 필요가 느끼면 양방향 설계를 해준다. 여기선 조회만 가능하다
     private List<Order> orders = new ArrayList<>(); // 사실 이부분은 그렇게 필요하지 않다. 그냥 양방향 연습느낌이라 생각
@@ -40,27 +40,19 @@ public class Member extends BaseEntity {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public String getStreet() {
-        return street;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

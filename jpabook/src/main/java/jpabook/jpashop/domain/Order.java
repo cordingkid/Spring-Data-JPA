@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {
@@ -14,15 +16,15 @@ public class Order extends BaseEntity {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @OneToMany(mappedBy = "order") // 이부분은 비즈니스적으로 필요 할 만 하다.(근데 꼭 필요한건 아님)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // 이부분은 비즈니스적으로 필요 할 만 하다.(근데 꼭 필요한건 아님)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
