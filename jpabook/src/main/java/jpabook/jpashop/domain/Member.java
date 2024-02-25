@@ -13,7 +13,7 @@ public class Member extends BaseEntity {
     private Long id;
     private String name;
 
-    @Embedded
+    @Embedded // 값 타입 추가
     private Address address;
 
     @OneToMany(mappedBy = "member") // 처음엔 단방향으로 만드는데 개발하다 필요가 느끼면 양방향 설계를 해준다. 여기선 조회만 가능하다

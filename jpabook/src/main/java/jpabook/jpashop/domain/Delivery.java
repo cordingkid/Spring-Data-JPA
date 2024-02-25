@@ -7,7 +7,7 @@ public class Delivery extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
-    @Embedded
+    @Embedded // 값 타입 추가
     private Address address;
 
     private DeliveryStatus status;

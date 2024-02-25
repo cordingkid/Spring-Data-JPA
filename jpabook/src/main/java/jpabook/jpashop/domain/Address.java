@@ -8,9 +8,9 @@ import java.util.Objects;
 @Embeddable // 값 타입
 public class Address {
 
-    @Column(length = 10)
-    private String city;
     @Column(length = 20)
+    private String city;
+    @Column(length = 30)
     private String street;
     @Column(length = 5)
     private String zipcode;
