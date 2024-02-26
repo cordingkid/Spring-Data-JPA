@@ -1,6 +1,9 @@
 package hellojpa;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
@@ -21,14 +24,24 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("hello");
+            // JPQL
+            // flush -> commit, query
+//            List<Member> result = em.createQuery(
+//                    "select m from Member m where m.username like '%kim%'", // 여기 Member는 테이블이 아니고 엔티티를 가르킨다.
+//                    Member.class
+//            ).getResultList();
+            
+            // Criteria 사용
+//            CriteriaBuilder cb = em.getCriteriaBuilder();
+//            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+//            Root<Member> m = query.from(Member.class);
+//            CriteriaQuery<Member> cg = query.select(m).where(cb.equal(m.get("username"), "kim"));
+//
+//            List<Member> resultList = em.createQuery(cg).getResultList();
 
+            // NativeSQL
+//            List resultList = em.createNativeQuery("selct member_id, city, from member").getResultList();
 
-
-            // fetch 조인 예시
-//            List<Member> members = em.createQuery("select m from Member m join fetch m.team", Member.class)
-//                    .getResultList();
 
             tx.commit();
         } catch (Exception e) {
