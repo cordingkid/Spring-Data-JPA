@@ -15,7 +15,8 @@
                 각각의 데이터베이스가 제공하는 SQL 문법과 함수는 조긌기 다름
                 방언 : SQL 표준을 지키지 않는 특정 데이터베이스만의 고유한 기능
             -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
+            <property name="hibernate.dialect" value="dialect.MyH2Dialect"/>
 
             <!--
                 옵션
