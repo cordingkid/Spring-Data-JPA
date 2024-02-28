@@ -3,6 +3,7 @@ package jpql;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 public class JpaMain {
 
@@ -19,24 +20,32 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
-            member.setUsername("teamA");
+            member.setUsername("관리자");
             member.setAge(10);
+            member.setType(MemberType.ADMIN);
             member.setTeam(team);
+
+            Member member2 = new Member();
+            member2.setUsername("관리자2");
+            member2.setAge(10);
+            member2.setType(MemberType.ADMIN);
+            member2.setTeam(team);
 
 
             em.persist(member);
+            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            String query = """
-                    select 
-                        m
-                    from Member m 
-                    left join Team t on m.username = t.name
-                    """;
-            List<Member> resultList = em.createQuery(query, Member.class)
-                    .getResultList();
+
+            List<?> resultList = em.createQuery("""
+                    select
+                        function('group_concat', m.username)
+                    from Member m
+                    """, String.class).getResultList();
+
+            System.out.println("resultList = " + resultList);
 
 
             tx.commit();

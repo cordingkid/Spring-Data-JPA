@@ -42,6 +42,15 @@ public class JpaMain {
             // NativeSQL
 //            List resultList = em.createNativeQuery("selct member_id, city, from member").getResultList();
 
+            Book book = new Book();
+            book.setName("JPA");
+            em.persist(book);
+
+            List<Item> resultList = em.createQuery("""
+                        select 
+                            i
+                        from Item i where type(i) = Book
+                    """, Item.class).getResultList();
 
             tx.commit();
         } catch (Exception e) {
