@@ -43,7 +43,8 @@ public class JpaMain {
                     select
                         function('group_concat', m.username)
                     from Member m
-                    """, String.class).getResultList();
+                    where m.username = :username
+                    """, String.class).setParameter("username", "관리자1").getResultList();
 
             System.out.println("resultList = " + resultList);
 
