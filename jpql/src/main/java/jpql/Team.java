@@ -1,6 +1,7 @@
 package jpql;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Team {
 
     private String name;
 
+//    @BatchSize(size = 100) 이렇게 배치 사이즈를 쓸수도있고 보통 글로벌 세팅으로 가져간다.
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
 
