@@ -29,6 +29,7 @@
             <property name="hibernate.use_sql_comments"  value="true"/>
             <property name="hibernate.jdbc.batch_size" value="10"/> <!-- 배치 사이즈 만큼 모아서 한방에 네트워크로 쿼리를 보냄 -->
             <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.default_batch_fetch_size" value="100" /> <!-- 1000이하로 적절히 잡아주면 된다. -->
         </properties>
     </persistence-unit>
 
