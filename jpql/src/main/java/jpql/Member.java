@@ -3,6 +3,10 @@ package jpql;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQuery(
+        name = "Member.findByUsername", // name 관례 Entity.쿼리이름 이렇게한다.
+        query = "select m from Member m where m.username = :username"
+) // 네임드 쿼리
 public class Member {
     @Id
     @GeneratedValue
