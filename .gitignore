@@ -1,2 +1,41 @@
 # target file ignore
 **/target/
+
+jpashop/HELP.md
+jpashop/.gradle
+jpashop/build/
+jpashop/!gradle/wrapper/gradle-wrapper.jar
+jpashop/!**/src/main/**/build/
+jpashop/!**/src/test/**/build/
+
+### STS ###
+jpashop/.apt_generated
+jpashop/.classpath
+jpashop/.factorypath
+jpashop/.project
+jpashop/.settings
+jpashop/.springBeans
+jpashop/.sts4-cache
+jpashop/bin/
+jpashop/!**/src/main/**/bin/
+jpashop/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+jpashop/.idea
+jpashop/*.iws
+jpashop/*.iml
+jpashop/*.ipr
+jpashop/out/
+jpashop/!**/src/main/**/out/
+jpashop/!**/src/test/**/out/
+
+### NetBeans ###
+jpashop/nbproject/private/
+jpashop/nbbuild/
+jpashop/dist/
+jpashop/nbdist/
+jpashop/.nb-gradle/
+
+### VS Code ###
+jpashop/.vscode/
+
