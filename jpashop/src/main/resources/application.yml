@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/jpashop;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create # create 모드
+    properties:
+      hibernate:
+#        show_sql: true # sql 쿼리 보는 설정 <= 얘는 System.out으로 찍는거여서 쓰면 안됨!
+        format_sql: true # format된 sql 보는 설정
+
+logging:
+  level:
+    org.hibernate.SQL: debug # JPA나 hibernate가 생성하는 SQL 다 보이는 설정 <= 로거로 찍는 거임
+    org.hibernate.orm.jdbc.bind: trace
