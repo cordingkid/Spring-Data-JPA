@@ -27,4 +27,14 @@ public class ItemService {
     public Item findOne(Long itemId) {
         return itemRepository.findOne(itemId);
     }
+
+    @Transactional
+    public void updateItem(Long itemId, String name, int price, int stockQuantity) {
+        // 이런 식으로 하는건 엔티티도 set을 빼고 의미 있는 매서드로 변경을 시키자!
+        // 엔티티 안에서 바로 추적할 수 있는 매서드를 만들자
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.setName(name);
+        findItem.setPrice(price);
+        findItem.setStockQuantity(stockQuantity);
+    }
 }
