@@ -52,4 +52,14 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
+    @Transactional
+    public void update(Long id, String name) {
+        // 리턴을 member로 해도 되는데 조금 애매해지는 부분이 있다.
+        // 그 이유는: 커맨드랑 쿼리를 철저하게 분리한다.
+        // 만약 member를 리턴하면 약간 조회 하는 꼴이 되어 버린다.
+        // 만약 리턴을 하더라도 id 정도만 리턴한다.
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+    }
 }
