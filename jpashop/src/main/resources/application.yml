@@ -16,4 +16,4 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug # JPA나 hibernate가 생성하는 SQL 다 보이는 설정 <= 로거로 찍는 거임
-    org.hibernate.orm.jdbc.bind: trace
+#    org.hibernate.orm.jdbc.bind: trace

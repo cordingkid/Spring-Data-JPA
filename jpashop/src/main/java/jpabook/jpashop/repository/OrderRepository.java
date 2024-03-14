@@ -7,7 +7,6 @@ import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -53,4 +52,17 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000
         return query.getResultList();
     }
+
+    /**
+     * 재사용성 좋음
+     */
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery("""
+                        select o from Order o
+                        join fetch o.member m
+                        join fetch o.delivery d
+                        """, Order.class)
+                .getResultList();
+    }
+
 }
