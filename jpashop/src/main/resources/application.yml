@@ -12,6 +12,7 @@ spring:
       hibernate:
 #        show_sql: true # sql 쿼리 보는 설정 <= 얘는 System.out으로 찍는거여서 쓰면 안됨!
         format_sql: true # format된 sql 보는 설정
+        default_batch_fetch_size: 100 # 참고로 설정해주는게 좋음
 
 logging:
   level:
