@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -65,4 +66,31 @@ public class OrderRepository {
                 .getResultList();
     }
 
+    public List<Order> findAllWithItem() {
+        // distinct를 사용해 중복을 제거 해줘야 하는데 하이버네이트 버전이 높아지면서 안써도 해결되었다.
+        return em.createQuery("""
+                        select o from Order o
+                        join fetch o.member m
+                        join fetch o.delivery
+                        join fetch o.orderItems oi
+                        join fetch oi.item i
+                        """, Order.class)
+                .setFirstResult(1) // 일대다 페치 조인에서는 페이징 하면 안된다 (연습이라 해봄)
+                .setMaxResults(100)
+                .getResultList();
+    }
+
+    /**
+     * 일대다 관계 페이징 처리
+     */
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery("""
+                        select o from Order o
+                        join fetch o.member m
+                        join fetch o.delivery d
+                        """, Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }
