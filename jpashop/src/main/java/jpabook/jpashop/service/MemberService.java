@@ -50,7 +50,7 @@ public class MemberService {
 
     // 회원 단건 조회
     public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
 
     @Transactional
@@ -59,7 +59,7 @@ public class MemberService {
         // 그 이유는: 커맨드랑 쿼리를 철저하게 분리한다.
         // 만약 member를 리턴하면 약간 조회 하는 꼴이 되어 버린다.
         // 만약 리턴을 하더라도 id 정도만 리턴한다.
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findById(id).get();
         member.setName(name);
     }
 }
