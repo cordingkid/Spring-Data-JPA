@@ -6,6 +6,7 @@ spring:
     driver-class-name: org.h2.Driver
 
   jpa:
+    open-in-view: false # OSIV 끄기 트랜잭션 커밋 시점 커넥션 반환
     hibernate:
       ddl-auto: create # create 모드
     properties:
