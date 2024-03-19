@@ -28,6 +28,7 @@ jpashop/*.ipr
 jpashop/out/
 jpashop/!**/src/main/**/out/
 jpashop/!**/src/test/**/out/
+jpashop/src/main/generated/
 
 ### NetBeans ###
 jpashop/nbproject/private/
