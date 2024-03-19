@@ -32,7 +32,7 @@ class MemberServiceTest {
 
         // then
         entityManager.flush(); // 쿼리를 보고싶을때 어차피 롤백 해줌
-        assertEquals(member, memberRepository.findOne(savedId));
+        assertEquals(member, memberRepository.findById(savedId));
     }
 
     @Test
