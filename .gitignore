@@ -40,3 +40,43 @@ jpashop/.nb-gradle/
 ### VS Code ###
 jpashop/.vscode/
 
+### data-jpa ###
+data-jpa/HELP.md
+data-jpa/.gradle
+data-jpa/build/
+data-jpa/!gradle/wrapper/gradle-wrapper.jar
+data-jpa/!**/src/main/**/build/
+data-jpa/!**/src/test/**/build/
+
+### STS ###
+data-jpa/.apt_generated
+data-jpa/.classpath
+data-jpa/.factorypath
+data-jpa/.project
+data-jpa/.settings
+data-jpa/.springBeans
+data-jpa/.sts4-cache
+data-jpa/bin/
+data-jpa/!**/src/main/**/bin/
+data-jpa/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+data-jpa/.idea
+data-jpa/*.iws
+data-jpa/*.iml
+data-jpa/*.ipr
+data-jpa/out/
+data-jpa/!**/src/main/**/out/
+data-jpa/!**/src/test/**/out/
+data-jpa/src/main/generated/
+
+### NetBeans ###
+data-jpa/nbproject/private/
+data-jpa/nbbuild/
+data-jpa/dist/
+data-jpa/nbdist/
+data-jpa/.nb-gradle/
+
+### VS Code ###
+data-jpa/.vscode/
+
