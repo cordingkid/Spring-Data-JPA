@@ -3,10 +3,10 @@ spring:
     ansi:
       enabled: ALWAYS # 로그 색깔 표시
   datasource:
-  url: jdbc:h2:tcp://localhost/~/datajpa
-  username: sa
-  password:
-  driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/datajpa
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create
@@ -14,6 +14,8 @@ spring:
       hibernate:
         # show_sql: true
         format_sql: true
-logging.level:
-  org.hibernate.SQL: debug
+        default_batch_fetch_size: 100 # 참고로 설정해주는게 좋음
+logging:
+  level:
+    org.hibernate.SQL: debug
 # org.hibernate.type: trace
