@@ -1,5 +1,6 @@
 package study.datajpa.repository;
 
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import study.datajpa.entity.Team;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,6 +24,8 @@ class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired EntityManager em;
 
     @Autowired TeamRepository teamRepository;
 
@@ -155,5 +159,32 @@ class MemberRepositoryTest {
         for (Member byName : byNames) {
             System.out.println("byName = " + byName);
         }
+    }
+
+    @Test
+    public void returnType() throws Exception{
+        Member member1 = new Member("AAA", 10);
+        Member member2 = new Member("BBB", 20);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+//        em.flush();
+//        em.clear();
+
+        // 컬렉션 조회 할때 값이 없으면 null이 아니고 빈값을 반환한다.
+        List<Member> aaa = memberRepository.findListByUsername("AAA"); 
+        assertThat(aaa.get(0).getUsername()).isEqualTo("AAA");
+
+        
+        // 만약 단건 조회시 값이 단건이 아니고 여러건이 들어오면 Exception이 터진다.
+        // IncorrectResultSizeDataAccsessException 인가 터짐
+        
+        // 단건 조회는 값이 없으면 null 갑을 반환한다.
+        Member aaa1 = memberRepository.findMemberByUsername("AAA");
+        assertThat(aaa1).isEqualTo(member1);
+
+        // 그래서 Optional을 사용한다.
+        Optional<Member> aaa2 = memberRepository.findOptionalMemberByUsername("AAA");
+        assertThat(aaa2.get()).isEqualTo(member1);
     }
 }
