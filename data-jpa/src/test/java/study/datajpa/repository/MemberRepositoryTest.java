@@ -1,10 +1,15 @@
 package study.datajpa.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
@@ -25,7 +30,7 @@ class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired EntityManager em;
+    @PersistenceContext EntityManager em;
 
     @Autowired TeamRepository teamRepository;
 
@@ -187,4 +192,72 @@ class MemberRepositoryTest {
         Optional<Member> aaa2 = memberRepository.findOptionalMemberByUsername("AAA");
         assertThat(aaa2.get()).isEqualTo(member1);
     }
+
+    @Test
+    public void paging() throws Exception{
+        // given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+
+        int age = 10;
+
+        /**
+         * Page, Pageable 사용
+         */
+        PageRequest pageRequest = PageRequest
+                .of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        // total 카운트 쿼리를 같이 날려준다
+        // when
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+
+        /**
+         * Dto로 변환
+         * 이렇게 dto로 변환해서 반환 한다 (권장)
+         *
+         * Page안에 모든 것이 json으로 반환 된다.
+         * 그리고 이 내부 컨텐트도 json으로 나가고
+         * 그리고 외부로 response body로 쭉 반환해서 보내면
+         * 깔끔하게 나오고 난 퇴근 하면된다!ㅋㅋㅋ
+         */
+        Page<MemberDto> map = page.map(m -> new MemberDto(m.getId(), m.getUsername(), null));
+
+        // 내부에 있는 실제 데이터 꺼낼 때
+        // then
+        List<Member> content = page.getContent();
+
+        // totalcount 나옴
+        long totalCount = page.getTotalElements();
+
+        assertThat(content.size()).isEqualTo(3);
+        assertThat(page.getTotalElements()).isEqualTo(5);
+        assertThat(page.getNumber()).isEqualTo(0); // 페이지 번호 출력
+        assertThat(page.getTotalPages()).isEqualTo(2); // 전체 페이지 출력
+        assertThat(page.isFirst()).isTrue(); // 첫번째 페이지냐?
+        assertThat(page.hasNext()).isTrue(); // 다음 페이지 있냐?
+    }
+
+    @Test
+    public void bulkUpdate() throws Exception{
+        // given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 21));
+        memberRepository.save(new Member("member5", 40));
+
+        // when
+        int resultConut = memberRepository.bulkAgePlus(20);
+
+        List<Member> result = memberRepository.findByUsername("member5");
+        Member member = result.get(0); // 40살이 나온다.
+        System.out.println("member = " + member);
+
+        // then
+        assertThat(resultConut).isEqualTo(3);
+    }
+
 }
