@@ -67,6 +67,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * bulk연산
      * @Modifying 이 있어야
      * executeUpdate이걸 호출 한다. 이게 없으면 singleResult 이런걸 호출한다.
+     * clearAutomatically = true 로 설정하여 해당 쿼리가 나가고 clear를 자동으로 해주는 역할
+     * 데이터의 정합성을 위해
      */
     @Modifying(clearAutomatically = true)
     @Query("update Member m set m.age = m.age + 1 where m.age >= :age")
