@@ -1,11 +1,11 @@
 package study.datajpa.repository;
 
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
@@ -53,7 +53,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * 페이징
      * import org.springframework.data.domain.Page;
      * import org.springframework.data.domain.Pageable;
-     *
+     * <p>
      * 이런식으로 카운트 쿼리를 분리해서 성능을 최적화 할 수 있다.
      */
     Page<Member> findByAge(int age, Pageable pageable);
@@ -65,6 +65,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     /**
      * bulk연산
+     *
      * @Modifying 이 있어야
      * executeUpdate이걸 호출 한다. 이게 없으면 singleResult 이런걸 호출한다.
      * clearAutomatically = true 로 설정하여 해당 쿼리가 나가고 clear를 자동으로 해주는 역할
@@ -73,4 +74,34 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying(clearAutomatically = true)
     @Query("update Member m set m.age = m.age + 1 where m.age >= :age")
     int bulkAgePlus(@Param("age") int age);
+
+    @Query("""
+            select m from Member m left join fetch m.team
+            """)
+    List<Member> findMemberFetchJoin();
+
+    // @EntityGraph ==============================
+
+    @Override
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findAll();
+
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
+    List<Member> findMemberEntityGraph();
+
+    //    @EntityGraph("Member.all") // 이런식으로도 가능 하다.
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findEntityGraphByUsername(@Param("username") String username);
+
+    // @EntityGraph ==============================
+
+    // JPA Hint ==
+    @QueryHints(value = {@QueryHint(name = "org.hibernate.readOnly", value = "true")})
+    Member findReadOnlyByUsername(String username);
+    // JPA Hint ==
+
+    // Lock
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    List<Member> findLockByUsername(String username);
 }
