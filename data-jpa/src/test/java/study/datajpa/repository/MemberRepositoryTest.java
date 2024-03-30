@@ -260,4 +260,60 @@ class MemberRepositoryTest {
         assertThat(resultConut).isEqualTo(3);
     }
 
+    @Test
+    public void findMemberLazy() throws Exception{
+        // given
+        // member1 -> teamA
+        // member2 -> teamB
+
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member2", 10, teamB);
+        member1.changeTeam(teamA);
+        member2.changeTeam(teamB);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        // when
+        List<Member> members = memberRepository.findEntityGraphByUsername("member1");
+
+        for (Member member : members) {
+            System.out.println("member.getUsername() = " + member.getUsername());
+            System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
+        }
+    }
+
+    @Test
+    public void queryHint() throws Exception{
+        // given
+        Member member = new Member("member1", 10);
+        memberRepository.save(member);
+        em.flush();
+        em.clear();
+
+        // when
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("member2"); // 밑에 flush 될때 더티 체킹으로 인한 업데이트
+
+        em.flush();
+    }
+
+    @Test
+    public void lock() throws Exception{
+        // given
+        Member member = new Member("member1", 10);
+        memberRepository.save(member);
+        em.flush();
+        em.clear();
+
+        // when
+        List<Member> member1 = memberRepository.findLockByUsername("member1");
+    }
+
 }
