@@ -316,4 +316,12 @@ class MemberRepositoryTest {
         List<Member> member1 = memberRepository.findLockByUsername("member1");
     }
 
+    /**
+     * 사용자 정의 리포지토리 테스트
+     */
+    @Test
+    public void callCustom() throws Exception{
+        List<Member> memberCustom = memberRepository.findMemberCustom();
+    }
+
 }
