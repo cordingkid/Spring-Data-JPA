@@ -80,3 +80,43 @@ data-jpa/.nb-gradle/
 ### VS Code ###
 data-jpa/.vscode/
 
+### querydsl ###
+querydsl/HELP.md
+querydsl/.gradle
+querydsl/build/
+querydsl/!gradle/wrapper/gradle-wrapper.jar
+querydsl/!**/src/main/**/build/
+querydsl/!**/src/test/**/build/
+
+### STS ###
+querydsl/.apt_generated
+querydsl/.classpath
+querydsl/.factorypath
+querydsl/.project
+querydsl/.settings
+querydsl/.springBeans
+querydsl/.sts4-cache
+querydsl/bin/
+querydsl/!**/src/main/**/bin/
+querydsl/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+querydsl/.idea
+querydsl/*.iws
+querydsl/*.iml
+querydsl/*.ipr
+querydsl/out/
+querydsl/!**/src/main/**/out/
+querydsl/!**/src/test/**/out/
+querydsl/src/main/generated/
+
+### NetBeans ###
+querydsl/nbproject/private/
+querydsl/nbbuild/
+querydsl/dist/
+querydsl/nbdist/
+querydsl/.nb-gradle/
+
+### VS Code ###
+querydsl/.vscode/
+
