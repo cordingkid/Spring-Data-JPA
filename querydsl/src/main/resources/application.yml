@@ -13,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+#        use_sql_comments: true # JPQL 확인하는 세팅
         default_batch_fetch_size: 100 # ??? ?????? ??
 logging:
   level:
