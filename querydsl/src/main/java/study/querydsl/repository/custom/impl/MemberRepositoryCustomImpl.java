@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.support.PageableExecutionUtils;
 import study.querydsl.dto.MemberSearchCondition;
 import study.querydsl.dto.MemberTeamDto;
@@ -22,7 +23,12 @@ import static study.querydsl.entity.QMember.member;
 import static study.querydsl.entity.QTeam.team;
 
 @RequiredArgsConstructor
+//public class MemberRepositoryCustomImpl extends QuerydslRepositorySupport implements MemberRepositoryCustom {
 public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
+
+//    public MemberRepositoryCustomImpl(Class<?> domainClass) {
+//        super(Member.class);
+//    }
 
     private final JPAQueryFactory queryFactory;
 
