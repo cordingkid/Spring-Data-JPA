@@ -23,12 +23,7 @@ import static study.querydsl.entity.QMember.member;
 import static study.querydsl.entity.QTeam.team;
 
 @RequiredArgsConstructor
-//public class MemberRepositoryCustomImpl extends QuerydslRepositorySupport implements MemberRepositoryCustom {
 public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
-
-//    public MemberRepositoryCustomImpl(Class<?> domainClass) {
-//        super(Member.class);
-//    }
 
     private final JPAQueryFactory queryFactory;
 
